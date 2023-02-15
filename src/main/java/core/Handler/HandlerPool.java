@@ -1,30 +1,31 @@
 package core.Handler;
 
-import core.Handler.implement.DefaultHandler;
-import core.Handler.implement.GetEquipmentsHandler;
-import core.Handler.implement.RegisterHandler;
+import core.Handler.implement.*;
 import core.message.MessageI;
+import core.message.implement.PacketTypeDefinitions;
+import core.utils.DataTransform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class HandlerPool {
 
-    private final List<HandlerI> handlers = new ArrayList<>();
+    private final List<HandlerI> handlers = new CopyOnWriteArrayList<>();
     private final ConcurrentLinkedQueue<MessageI> messages = new ConcurrentLinkedQueue<>();
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public void init() {
         logger.info("HandlerPool initiating...");
+
         handlers.add(new RegisterHandler());
         handlers.add(new GetEquipmentsHandler());
         handlers.add(new DefaultHandler());
+        handlers.add(new HeartbeatHandler());
+        handlers.add(new StreamHandler());
+        handlers.add(new ControlHandler());
 
         Thread thread = new Thread(() -> {
             logger.info("start handling...");
@@ -47,13 +48,23 @@ public class HandlerPool {
             try {
                 handler.handle(m);
             } catch (Exception e) {
-                logger.warn("Something went wrong", e);
+                logger.warn("Something went wrong\n", e);
             }
         }
     }
 
     public void newMessage(MessageI m) {
         messages.add(m);
+    }
+
+    public void registerNewHandler(HandlerI handlerI) {
+        handlers.add(handlerI);
+    }
+
+    public void registerNewScriptEmbedHandler(String name) {
+        String path = DataTransform.getScriptPathByName(name);
+        ScriptEmbedHandler scriptEmbedHandler = new ScriptEmbedHandler(path);
+        registerNewHandler(scriptEmbedHandler);
     }
 
 }

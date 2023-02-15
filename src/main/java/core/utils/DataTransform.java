@@ -1,10 +1,15 @@
 package core.utils;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Base64;
 
 public class DataTransform {
@@ -39,6 +44,23 @@ public class DataTransform {
         return value;
     }
 
+    public static short byteArrayToShort(byte[] bytes) {
+        short value = 0;
+        for (int i=0; i < 2; i++) {
+            int shift = (2 -1 -i) * 8;
+            value += (bytes[i] & 0x000000FF) << shift;
+        }
+        return value;
+    }
+
+    public static short[] intToShort(int value) {
+        byte[] bytes = intToByteArray(value);
+        short[] shorts = new short[2];
+        shorts[0] = byteArrayToShort(Arrays.copyOfRange(bytes, 0, 2));
+        shorts[1] = byteArrayToShort(Arrays.copyOfRange(bytes, 2, 4));
+        return shorts;
+    }
+
     public static int bytesToInt(byte b1,byte b2,byte b3,byte b4) {
         return byteArrayToInt(new byte[]{b1, b2, b3, b4});
     }
@@ -54,6 +76,16 @@ public class DataTransform {
         imageString = encoder.encodeToString(imageBytes);
         bos.close();
         return imageString;
+    }
+
+    public static void saveToJS(String name, String script) throws IOException {
+        FileWriter writer = new FileWriter("/script/"+ name + ".js");
+        writer.write(script);
+        writer.close();
+    }
+
+    public static String getScriptPathByName(String name) {
+        return "/script/" + name + ".js";
     }
 
 }

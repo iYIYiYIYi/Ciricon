@@ -9,6 +9,7 @@ import core.scheduler.SchedulerManager;
 import io.javalin.Javalin;
 import org.mapdb.DB;
 
+import javax.script.ScriptEngineManager;
 import java.net.UnknownHostException;
 
 public class CoreManager {
@@ -20,10 +21,13 @@ public class CoreManager {
     private static DataCenter dataCenter;
     private static HttpServer httpServer;
     private static WebSocketServer webSocketServer;
+    private static ScriptEngineManager scriptEngineManager;
     private SchedulerManager schedulerManager;
 
 
+
     public void init() throws Exception {
+        scriptEngineManager = new ScriptEngineManager();
         dataCenter = new DataCenter();
         dataCenter.init();
         handlerPool = new HandlerPool();
@@ -59,6 +63,10 @@ public class CoreManager {
 
     public static WebSocketServer getWebSocketServer() {
         return webSocketServer;
+    }
+
+    public static ScriptEngineManager getScriptEngineManager() {
+        return scriptEngineManager;
     }
 
 }
