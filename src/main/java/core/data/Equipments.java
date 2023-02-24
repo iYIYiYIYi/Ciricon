@@ -34,7 +34,7 @@ public class Equipments {
         if (e.getId() != 0) id = e.getId();
         else {
             for (Integer integer : equipments.keySet()) {
-                var equip = equipments.get(integer);
+                Equipment equip = equipments.get(integer);
                 if (equip.getAddress().equals(e.getAddress())) {
                     id = integer;
                 }

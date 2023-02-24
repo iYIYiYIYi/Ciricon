@@ -11,7 +11,7 @@ public class DefaultHandler implements HandlerI {
     public void handle(MessageI m) throws Exception {
         if (m.getPacketType() == PacketTypeDefinitions.BROADCAST_PACKET) {
             logger.info("New Broadcast Packet received");
-            for (var target: CoreManager.getDataCenter().getEquipments().getMap().keySet()) {
+            for (Integer target: CoreManager.getDataCenter().getEquipments().getMap().keySet()) {
                 CoreManager.getUdpServer().send(target, m.toBytes());
             }
         } else {

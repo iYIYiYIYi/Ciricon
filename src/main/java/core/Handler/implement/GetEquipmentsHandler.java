@@ -15,7 +15,7 @@ public class GetEquipmentsHandler implements HandlerI {
     public void handle(MessageI m) throws Exception {
         if (m.getTargetID() == CoreManager.SERVER_ID && m.getPacketType() == PacketTypeDefinitions.INFO_PACKET) {
             logger.info("Give out map...");
-            var map = CoreManager.getDataCenter().getEquipments().getMap();
+            org.mapdb.HTreeMap<Integer, core.data.entities.Equipment> map = CoreManager.getDataCenter().getEquipments().getMap();
             String obj = JSONObject.toJSONString(map);
             PacketMessage message = new PacketMessage(m.getSourceID(), PacketTypeDefinitions.INFO_PACKET, obj.getBytes(StandardCharsets.UTF_8));
             CoreManager.getUdpServer().send(message);

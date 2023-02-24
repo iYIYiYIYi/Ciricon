@@ -2,14 +2,13 @@
 <project version="4">
   <component name="RemoteTargetsManager">
     <targets>
-      <target name="u0_a91@192.168.2.155:8022" type="ssh/sftp" uuid="5eb9f239-4f38-4d51-85af-3e9fbdf43187">
+      <target name="ubuntu@192.168.2.167:22" type="ssh/sftp" uuid="617ae92a-8061-41ba-b927-0bd0f4621292">
         <config>
-          <option name="projectRootOnTarget" value="/data/data/com.termux/files/home/Ciricon" />
-          <option name="serverName" value="u0_a91@192.168.2.155:8022 password" />
+          <option name="projectRootOnTarget" value="/home/ubuntu/Ciricon" />
+          <option name="serverName" value="ubuntu@192.168.2.167:22 password" />
         </config>
         <ContributedStateBase type="JavaLanguageRuntime">
           <config>
-            <option name="homePath" value="/data/data/com.termux/files/usr/opt/openjdk" />
             <option name="javaVersionString" value="17-ea" />
           </config>
         </ContributedStateBase>

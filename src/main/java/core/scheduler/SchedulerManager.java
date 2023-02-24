@@ -3,14 +3,21 @@ package core.scheduler;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.util.Properties;
+
 public class SchedulerManager {
-    private final SchedulerFactory factory = new StdSchedulerFactory();
+    private SchedulerFactory factory;
     private Scheduler scheduler;
     private Trigger trigger_500ms;
 
     public void init() throws SchedulerException {
+        Properties prop = new Properties();
+        // 线程池配置
+        prop.put("org.quartz.threadPool.threadCount", "3");
+        factory = new StdSchedulerFactory(prop);
         scheduler = factory.getScheduler();
-        trigger_500ms = TriggerBuilder.newTrigger().withIdentity("trigger", "triggerGroup")
+
+        trigger_500ms = TriggerBuilder.newTrigger().withIdentity("trigger_500", "triggerGroup")
                 .startNow()//立即生效
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInMilliseconds(500)//每隔500ms执行一次

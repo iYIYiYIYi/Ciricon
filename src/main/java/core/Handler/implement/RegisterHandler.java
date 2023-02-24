@@ -23,7 +23,7 @@ public class RegisterHandler implements HandlerI {
         if (m instanceof PacketMessage && m.getPacketType() == PacketTypeDefinitions.REGISTER_PACKET) {
             InetAddress address = ((PacketMessage) m).getAddress();
             logger.info("New Equipment Registering... IP:" + address.getHostAddress());
-            var equipment = new Equipment();
+            Equipment equipment = new Equipment();
             equipment.setId(m.getSourceID());
             JSONObject obj_data = JSON.parseObject(m.getString());
             equipment.setType(obj_data.getIntValue("type"));

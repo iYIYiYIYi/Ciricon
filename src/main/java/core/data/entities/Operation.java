@@ -1,61 +1,38 @@
 package core.data.entities;
 
+import com.alibaba.fastjson.annotation.JSONType;
+import core.data.entities.values.ValueI;
+
 import java.io.Serializable;
+import java.util.List;
 
+@JSONType
 public class Operation implements Serializable {
-
     private int equipmentID;
     private String name;
     private String description;
-
-    private int max;
-    private int min;
-    private int value;
-
-    public int getMax() {
-        return max;
+    private List<ValueI> valueIS;
+    public List<ValueI> getValueIS() {
+        return valueIS;
     }
-
-    public void setMax(int max) {
-        this.max = max;
+    public void setValueIS(List<ValueI> valueIS) {
+        this.valueIS = valueIS;
     }
-
-    public int getMin() {
-        return min;
-    }
-
-    public void setMin(int min) {
-        this.min = min;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
     public int getEquipmentID() {
         return equipmentID;
     }
-
     public void setEquipmentID(int equipmentID) {
         this.equipmentID = equipmentID;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }

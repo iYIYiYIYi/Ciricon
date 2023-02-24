@@ -5,6 +5,7 @@ import core.manager.CoreManager;
 import core.message.MessageI;
 import core.message.converter.PacketMessageConverter;
 import core.network.ServerI;
+import core.utils.TaskExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +19,8 @@ public class UDPServer implements ServerI {
     private boolean keepRunning = true;
     private DatagramSocket recv_socket;
     private DatagramSocket send_socket;
-    private int RECV_port = 55320;
-    private int SEND_port = 55321;
+    private int RECV_port = 15320;
+    private int SEND_port = 15321;
 
     public UDPServer() throws UnknownHostException, SocketException {
             send_socket = new DatagramSocket(SEND_port);
@@ -53,8 +54,8 @@ public class UDPServer implements ServerI {
 //                recv_socket.setSoTimeout(60000);
                 recv_socket.receive(data);
                 logger.info("Receiving Packet...");
-                var address = data.getAddress();
-                var message = PacketMessageConverter.convert(address, databuf);
+                InetAddress address = data.getAddress();
+                core.message.implement.PacketMessage message = PacketMessageConverter.convert(address, databuf);
                 CoreManager.getHandlerPool().newMessage(message);
             } catch (IOException e) {
                 logger.error("cant parse message", e);
@@ -64,8 +65,7 @@ public class UDPServer implements ServerI {
 
     @Override
     public void run() {
-        logger.info("creating thread...");
-        new Thread(this::running).start();
+        TaskExecutor.submit(this::running);
     }
 
     public void send(int target, byte[] data) throws IOException {

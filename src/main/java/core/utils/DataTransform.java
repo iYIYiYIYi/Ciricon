@@ -79,13 +79,13 @@ public class DataTransform {
     }
 
     public static void saveToJS(String name, String script) throws IOException {
-        FileWriter writer = new FileWriter("/script/"+ name + ".js");
+        FileWriter writer = new FileWriter("script/"+ name + ".js");
         writer.write(script);
         writer.close();
     }
 
     public static String getScriptPathByName(String name) {
-        return "/script/" + name + ".js";
+        return "script/" + name + ".js";
     }
 
 }

@@ -84,10 +84,10 @@ public class PacketMessage implements MessageI {
 
     @Override
     public byte[] toBytes() {
-        var length = DataTransform.intToByteArray(packetLength);
-        var target = DataTransform.intToByteArray(targetID);
-        var source = DataTransform.intToByteArray(sourceID);
-        var type = DataTransform.intToByteArray(packetType);
+        byte[] length = DataTransform.intToByteArray(packetLength);
+        byte[] target = DataTransform.intToByteArray(targetID);
+        byte[] source = DataTransform.intToByteArray(sourceID);
+        byte[] type = DataTransform.intToByteArray(packetType);
         ByteBuffer buffer = ByteBuffer.allocate(length.length + target.length + source.length + type.length + src.length);
         buffer.put(length);
         buffer.put(target);
